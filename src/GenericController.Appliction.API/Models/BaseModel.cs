@@ -10,7 +10,7 @@ namespace GenericController.Appliction.API.Models
         public Guid Id { get; set; }
 
         [Required]
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
     }
 }

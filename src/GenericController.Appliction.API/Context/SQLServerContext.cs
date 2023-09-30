@@ -18,8 +18,14 @@ namespace GenericController.Appliction.API.Context
 
         public override int SaveChanges()
         {
-
+            this.UpdateFields();
             return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            this.UpdateFields();
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         #region DbSets
@@ -30,17 +36,18 @@ namespace GenericController.Appliction.API.Context
         private void UpdateFields()
         {
             IEnumerable<EntityEntry<BaseModel>> modifyEntities = ChangeTracker.Entries<BaseModel>();
+            DateTime currentTime = DateTime.Now;
 
             foreach (var entity in modifyEntities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    entity.Entity.CreatedOn = DateTime.Now;
+                    entity.Entity.CreatedOn = currentTime;
                 }
 
                 if (entity.State == EntityState.Modified)
                 {
-                    entity.Entity.UpdatedOn = DateTime.Now;
+                    entity.Entity.UpdatedOn = currentTime;
                 }
             }
         }

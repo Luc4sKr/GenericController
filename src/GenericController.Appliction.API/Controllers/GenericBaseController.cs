@@ -1,10 +1,11 @@
-﻿using GenericController.Appliction.API.Services.Interfaces;
+﻿using GenericController.Appliction.API.Models;
+using GenericController.Appliction.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericController.Appliction.API.Controllers
 {
     [ApiController]
-    public class GenericBaseController<T> : ControllerBase where T : class
+    public class GenericBaseController<T> : ControllerBase where T : BaseModel
     {
         private readonly IBaseService<T> _baseService;
 
@@ -49,7 +50,7 @@ namespace GenericController.Appliction.API.Controllers
             }
             catch
             {
-                return BadRequest();
+                return BadRequest(id);
             }
         }
 
@@ -63,7 +64,48 @@ namespace GenericController.Appliction.API.Controllers
             }
             catch
             {
+                return BadRequest(entity);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<T>> Put(Guid id, [FromBody] T entity)
+        {
+            if (id != entity.Id)
+            {
                 return BadRequest();
+            }
+
+            try
+            {
+                await this._baseService.Update(entity);
+                return Ok(entity);
+            }
+            catch
+            {
+                return BadRequest(entity);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+            try
+            {
+                T entity = this._baseService.GetById(id);
+
+                if (entity == null)
+                {
+                    return NotFound(id);
+                }
+
+                this._baseService.Delete(entity);
+
+                return Delete(id);
+            }
+            catch
+            {
+                return BadRequest(id);
             }
         }
     }

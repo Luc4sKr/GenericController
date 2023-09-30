@@ -35,6 +35,7 @@ namespace GenericController.Appliction.API.Services.Application
 
         public Task<int> Update(T entity)
         {
+            _context.Entry(entity).State = EntityState.Modified;
             _context.Set<T>().Update(entity);
             return _context.SaveChangesAsync();
         }
