@@ -1,4 +1,5 @@
 ﻿using GenericController.Appliction.API.Models;
+using GenericController.Appliction.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericController.Appliction.API.Controllers
@@ -7,31 +8,11 @@ namespace GenericController.Appliction.API.Controllers
     [Route("api/[controller]")]
     public class UserController : GenericBaseController<User>
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        private readonly IUserService _userService;
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        public UserController(IUserService userService) : base(userService)
         {
-            return "value";
-        }
-
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            this._userService = userService;
         }
     }
 }
