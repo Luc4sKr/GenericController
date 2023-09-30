@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GenericController.Appliction.API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GenericController.Appliction.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [Route("api/[controller]")]
+    public class UserController : GenericBaseController<User>
     {
         [HttpGet]
         public IEnumerable<string> Get()

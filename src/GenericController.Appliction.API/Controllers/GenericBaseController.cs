@@ -2,7 +2,9 @@
 
 namespace GenericController.Appliction.API.Controllers
 {
-    public class GenericBaseController : ControllerBase
+    [ApiController]
+    public class GenericBaseController<T> : ControllerBase where T : class
     {
+
     }
 }
