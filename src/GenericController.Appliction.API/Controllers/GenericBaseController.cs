@@ -35,11 +35,11 @@ namespace GenericController.Appliction.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<T> Get(Guid id)
+        public async Task<ActionResult<T>> Get(Guid id)
         {
             try
             {
-                T entity = this._baseService.GetById(id);
+                T entity = await this._baseService.GetById(id);
 
                 if (entity == null)
                 {
@@ -88,20 +88,20 @@ namespace GenericController.Appliction.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             try
             {
-                T entity = this._baseService.GetById(id);
+                T entity = await this._baseService.GetById(id);
 
                 if (entity == null)
                 {
                     return NotFound(id);
                 }
 
-                this._baseService.Delete(entity);
+                await this._baseService.Delete(entity);
 
-                return Delete(id);
+                return NoContent();
             }
             catch
             {

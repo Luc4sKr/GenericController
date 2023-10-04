@@ -22,9 +22,10 @@ namespace GenericController.Appliction.API.Services.Application
                 .ToList();
         }
 
-        public T GetById(Guid id)
+        public async Task<T> GetById(Guid id)
         {
-            return _context.Set<T>().SingleOrDefault(entity => entity.Id == id);
+            return await _context.Set<T>()
+                .SingleOrDefaultAsync(entity => entity.Id == id);
         }
 
         public Task<int> Create(T entity)
